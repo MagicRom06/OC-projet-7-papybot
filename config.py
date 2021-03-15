@@ -1,3 +1,8 @@
-SECRET_KEY = "#d#JCqTTW\nilK\\7m\x0bp#\tj~#H"
+import os
 
-PAPYBOT_APP_ID = 1200420960103822
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+class Config(object):
+	SECRET_KEY = os.environ['SECRET_KEY']
+	CSRF_ENABLED = True
+	SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
