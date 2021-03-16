@@ -3,21 +3,23 @@
 {% block content %}
 <div class="container container-main mt-3">
   	<div class="row row-dialogue">
-
-  		<script type="text/javascript">
+  		<div class="container" id="display_message">
+  			<script type="text/javascript">
   			function getMessage(){
   				var message = document.getElementById('message_form').value;
-  				display_message.innerHTML = message;
+  				var new_div = document.createElement('div');
+  				new_div.className = "user_message";
+  				var text = document.createTextNode(message);
+  				new_div.appendChild(text);
+  				display_message.appendChild(new_div);
   				console.log(message);
   			}
   		</script>
-  		
-  		<div class="container" id="display_message">
   		</div>
   	</div>
   	<div class="row row-form">
   		<div class="container">
-  			<form action="{{ url_for('index') }}" method="POST">
+  			<form action="{{ url_for('index') }}" onsubmit="event.preventDefault(); getMessage();">
   				<div class="row mt-2">
   					<div class="col-lg-9 offset-1 col-md-8 col-sm-7 col-6">
   						<input type="text" id="message_form" class="form-control mt-3" placeholder="Demandez quelque chose à PapyBot...">

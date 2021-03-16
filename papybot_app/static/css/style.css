@@ -37,6 +37,7 @@ html, body {
 .row-dialogue{
 	height: 80%;
 	border-bottom: 1px solid #58A09B;
+	overflow: scroll;
 }
 .row-form{
 	height: 20%;
@@ -48,4 +49,27 @@ html, body {
 .button-dialogue:hover{
 	color:white;
 	background-color:#58A09B;
+}
+.user_message{
+  width: 300px;
+  margin: 50px;
+  background: #AED6F1;
+  padding: 20px;
+  text-align: left;
+  font-weight: 900;
+  color: #fff;
+  font-family: arial;
+  position:relative;
+}
+.user_message:before{
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #AED6F1;
+  border-top: 10px solid #AED6F1;
+  border-bottom: 10px solid transparent;
+  left: -20px;
+  top: 6px;
 }
