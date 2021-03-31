@@ -1,31 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="container container-main mt-3">
   	<div class="row row-dialogue">
   		<div class="container" id="display_message">
-  			<script type="text/javascript">
-  			function getMessage(){
-  				var message = document.getElementById('message_form').value;
-  				var new_div = document.createElement('div');
-  				new_div.className = "user_message";
-  				var text = document.createTextNode(message);
-  				new_div.appendChild(text);
-  				display_message.appendChild(new_div);
-  				console.log(message);
-  			}
-  		</script>
+  			<div class="sub_div">
+	  			<div class="spinner-border" id="spinner">
+	  			</div>
+  			</div>
   		</div>
   	</div>
   	<div class="row row-form">
   		<div class="container">
-  			<form action="{{ url_for('index') }}" onsubmit="event.preventDefault(); getMessage();">
+  			<form action="{{ url_for('index') }}" onsubmit="event.preventDefault(); displayMessage();" method="POST">
   				<div class="row mt-2">
   					<div class="col-lg-9 offset-1 col-md-8 col-sm-7 col-6">
-  						<input type="text" id="message_form" class="form-control mt-3" placeholder="Demandez quelque chose à PapyBot...">
+  						<input type="text" id="message_form" class="form-control mt-3" placeholder="Demandez quelque chose à PapyBot..." required>
   					</div>
   					<div class="col-lg-2 col-md-1 col-sm-1 col-1">
-  						<button type="button" onclick="getMessage()" class="btn btn-outline-secondary button-dialogue mt-3">Demander</button>
+  						<button type="submit" class="btn btn-outline-secondary button-dialogue mt-3">Demander</button>
   					</div>
   				</div>
   			</form>

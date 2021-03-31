@@ -1,4 +1,5 @@
 import pytest
+import flask
 from ..views import app
 
 @pytest.fixture
@@ -15,3 +16,15 @@ def test_index(client):
 	rv = client.get('/')
 	assert rv.status_code == 200
 	assert b'PapyBot' in rv.data
+
+def test_index_post(client):
+	rv = client.post("/", data="question=TEST AJAX", content_type='application/x-www-form-urlencoded',)
+	assert rv.status_code == 200
+
+def test_anwser(client):
+	rv = client.get('/answer?question=merci')
+	assert rv.status_code == 200
+	assert b'answer' in rv.data
+	with app.test_request_context('/answer?question=merci'):
+		assert flask.request.path == '/answer'
+		assert flask.request.args['question'] == 'merci'
