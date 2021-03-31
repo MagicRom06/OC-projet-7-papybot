@@ -33,6 +33,7 @@ async function displayPapyAnswer(question){
 		createDiv("papy_message", result.answer);
 		if ("map" in result){
 			addGoogleMap(result.map[0], result.map[1]);
+			getWiki();
 		}
 	});
 };
@@ -67,3 +68,18 @@ function addGoogleMap(lat, lng){
 	col.appendChild(div);
 	initMap(lat, lng);
 }
+
+function getWiki(){
+	const url = new URL("http://fr.wikipedia.org/w/api.php");
+	const params = {"action": "query", "list": "search", "srsearch": "Cité Paradis Paris", "format":"json"};
+	url.search = new URLSearchParams(params).toString();
+	fetch(url, {
+		method: "GET"
+	})
+	.then((resp) => {
+		return resp.json();
+	})
+	.then((data) => {
+		console.log(data.query.search[0]);
+	})
+};
