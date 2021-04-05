@@ -26,21 +26,18 @@ async function displayPapyAnswer(question){
 	const url = new URL("http://127.0.0.1:5000/answer");
 	const params = {'question': question}
 	url.search = new URLSearchParams(params).toString();
-	fetch(url)
-	.then(resp => resp.json())
-	.then((result) => {
-		spinner.style.visibility = 'hidden';
-		createDiv("papy_message", result.answer);
-		if ("map" in result){
-			addGoogleMap(result.map[0], result.map[1]);
-			getWiki();
-		}
-	});
+	const result = await fetch(url).then(resp => resp.json())
+	spinner.style.visibility = 'hidden';
+	createDiv("papy_message", result.answer.papy);
+	if ("location" in result.answer){
+		addGoogleMap(result.answer.location.lat, result.answer.location.lng);
+		createDiv("papy_message", result.answer.wiki);
+	}
 };
 
-function initMap(lat, lng) {
+function initMap(lat, lng, id) {
 	const place = { lat: lat, lng: lng };
-	const map = new google.maps.Map(document.getElementById("map"), {
+	const map = new google.maps.Map(document.getElementById(id), {
 		zoom: 17,
 		center: place,
 	});
@@ -56,7 +53,10 @@ function papyIsThinking(min, max){
 
 function addGoogleMap(lat, lng){
 	const div = document.createElement('div');
-	div.id = 'map'
+	const date = new Date();
+	const actualTime = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + '-' + 
+	date.getHours() + '-' + date.getMinutes() + '-' + date.getSeconds();
+	div.id = `map-${actualTime}`
 	const row = document.createElement('class');
 	row.className = 'row mr-auto';
 	const col = document.createElement('class');
@@ -66,20 +66,5 @@ function addGoogleMap(lat, lng){
 	display_message.appendChild(row);
 	row.appendChild(col);
 	col.appendChild(div);
-	initMap(lat, lng);
+	initMap(lat, lng, div.id);
 }
-
-function getWiki(){
-	const url = new URL("http://fr.wikipedia.org/w/api.php");
-	const params = {"action": "query", "list": "search", "srsearch": "Cité Paradis Paris", "format":"json"};
-	url.search = new URLSearchParams(params).toString();
-	fetch(url, {
-		method: "GET"
-	})
-	.then((resp) => {
-		return resp.json();
-	})
-	.then((data) => {
-		console.log(data.query.search[0]);
-	})
-};

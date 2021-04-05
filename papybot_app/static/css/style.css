@@ -2,77 +2,90 @@ html, body {
 	height: 100%;
 	margin: 0px;
 }
+
 .fab{
 	font-size:30px;
 }
+
 .footer-elt{
 	padding: 3px;
 	transition: 0.5s;
 }
+
 .footer-elt:hover{
 	color:#58A09B;
 	transition: 0.5s;
 	animation-name: spin;
 	animation-duration: 5000ms;
-  	animation-iteration-count: infinite;
-  	animation-timing-function: linear; 
+	animation-iteration-count: infinite;
+	animation-timing-function: linear; 
 }
+
 @keyframes spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
+	from {
+		transform:rotate(0deg);
+	}
+	to {
+		transform:rotate(360deg);
+	}
 }
+
 .navbar-brand{
 	font-size: 30px;
 	font-family: 'Keania One', cursive;
 }
+
 .container-main{
 	border:1px solid #58A09B;
 	height: 70%;
 	box-shadow: 10px 5px 5px #CCD1D1;
 }
+
 .row-dialogue{
 	height: 80%;
 	border-bottom: 1px solid #58A09B;
 	overflow: scroll;
 }
+
 .row-form{
 	height: 20%;
 }
+
 .button-dialogue{
 	color:#58A09B;
 	border: 1px solid #58A09B;
 }
+
 .button-dialogue:hover{
 	color:white;
 	background-color:#58A09B;
 }
+
 .user_message{
-  width: 300px;
-  margin: 50px;
-  background: #AED6F1;
-  padding: 20px;
-  text-align: left;
-  font-weight: 900;
-  color: #fff;
-  font-family: arial;
-  position:relative;
+	width: 300px;
+	margin: 50px;
+	background: #AED6F1;
+	padding: 20px;
+	text-align: left;
+	font-weight: 900;
+	color: #fff;
+	font-family: arial;
+	position:relative;
 }
+
 .user_message:before{
-  content: "";
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  border-left: 10px solid transparent;
-  border-right: 10px solid #AED6F1;
-  border-top: 10px solid #AED6F1;
-  border-bottom: 10px solid transparent;
-  left: -20px;
-  top: 6px;
+	content: "";
+	width: 0px;
+	height: 0px;
+	position: absolute;
+	border-left: 10px solid transparent;
+	border-right: 10px solid #AED6F1;
+	border-top: 10px solid #AED6F1;
+	border-bottom: 10px solid transparent;
+	left: -20px;
+	top: 6px;
 }
+
 .papy_message{
 	width: 300px;
 	background: #A9DFBF;
@@ -84,23 +97,24 @@ html, body {
 	margin-left: auto; 
 	margin-right: 10px;
 	margin-bottom: 10px;
+	margin-top: 10px;
 }
+
 #display_message{
 	position: relative;
 }
+
 .sub_div { 
 	position: absolute; 
 	bottom: 0px; 
 	right: 0;
-} 
+}
+
 #spinner{
 	padding: 20px;
 	font-weight: 900;
 	margin-left: auto; 
 	margin-right: 10px;
 	margin-bottom: 10px;
-	visibility: hidden;
-}
-#map {
 	visibility: hidden;
 }

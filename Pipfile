@@ -11,6 +11,11 @@ psycopg2-binary = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 pytest = "*"
+wikipedia = "*"
+googlemaps = "*"
+isort = "*"
+pep8 = "*"
+pycodestyle = "*"
 
 [requires]
 python_version = "3.8"
