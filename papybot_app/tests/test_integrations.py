@@ -8,6 +8,9 @@ from ..views import app
 
 @pytest.fixture
 def client():
+    """
+    pre-config for app tests
+    """
     app.config['TESTING'] = True
     app.config['SERVER_NAME'] = 'TEST.localhost'
     client = app.test_client()
@@ -18,12 +21,19 @@ def client():
 
 
 def test_index(client):
+    """
+    testing index route is reachable and
+    PapyBot in displayed
+    """
     rv = client.get('/')
     assert rv.status_code == 200
     assert b'PapyBot' in rv.data
 
 
 def test_index_post(client):
+    """
+    testing post request from index
+    """
     rv = client.post(
         "/",
         data="question=TEST AJAX",
@@ -32,6 +42,10 @@ def test_index_post(client):
 
 
 def test_anwser(client):
+    """
+    testing answer route is reachable with url parameters
+    and testing if the right answer is displayed
+    """
     rv = client.get('/answer?question=merci')
     assert rv.status_code == 200
     assert b'answer' in rv.data
