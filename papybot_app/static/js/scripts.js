@@ -20,7 +20,7 @@ async function displayPapyAnswer(question){
 	var spinner = document.getElementById('spinner');
 	spinner.style.visibility = 'visible';
 	await papyIsThinking(1, 8000);
-	const url = new URL("http://127.0.0.1:5000/answer");
+	const url = new URL("http://papybot06.herokuapp.com/answer");
 	const params = {'question': question}
 	url.search = new URLSearchParams(params).toString();
 	const result = await fetch(url).then(resp => resp.json())
