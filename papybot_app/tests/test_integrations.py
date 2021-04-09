@@ -1,9 +1,13 @@
 import json
+import os
 
 import flask
 import pytest
 
 from ..views import app
+from wikipedia import summary
+import googlemaps
+from ..grandpapybot import GrandPapyBot
 
 
 @pytest.fixture
@@ -30,17 +34,6 @@ def test_index(client):
     assert b'PapyBot' in rv.data
 
 
-def test_index_post(client):
-    """
-    testing post request from index
-    """
-    rv = client.post(
-        "/",
-        data="question=TEST AJAX",
-        content_type='application/x-www-form-urlencoded',)
-    assert rv.status_code == 200
-
-
 def test_anwser(client):
     """
     testing answer route is reachable with url parameters
@@ -50,4 +43,45 @@ def test_anwser(client):
     assert rv.status_code == 200
     assert b'answer' in rv.data
     data = json.loads(rv.get_data(as_text=True))
-    assert data['answer'] == "De rien jeune padawan"
+    assert data['answer'] == {"papy": "De rien jeune padawan"}
+
+def test_search_adress(client):
+    rv = client.get("/answer?question=tu connais l'adresse de openclassrooms ?")
+    assert rv.status_code == 200
+    assert b'answer' in rv.data
+    data = json.loads(rv.get_data(as_text=True))
+    assert data['answer'] == {
+    "location": {
+    "lat": 48.8975156, "lng": 2.3833993
+    }, 
+    "papy": "Bien sûr mon poussin ! La voici: 10 Quai de la Charente, 75019 Paris, France.",
+    "wiki": "OpenClassrooms est un site web de formation en ligne qui propose à ses membres des cours certifiants et des parcours débouchant sur des métiers en croissance. Ses contenus sont réalisés en interne, par des écoles, des universités, des entreprises partenaires comme Microsoft ou IBM, ou historiquement par des bénévoles."}
+
+def test_search_movie(client):
+    rv = client.get("/answer?question=tu connais le film sacré graal ?")
+    assert rv.status_code == 200
+    assert b'answer' in rv.data
+    data = json.loads(rv.get_data(as_text=True))
+    assert data['answer'] == {
+    'movie': 'Monty Python : Sacré Graal ! (Monty Python and the Holy Grail) est un film britannique sorti en 1975, écrit et réalisé par Terry Gilliam et Terry Jones de la troupe des Monty Python.',
+    'papy': "oui j'adore ce film !"}
+
+def test_search_book(client):
+    rv = client.get("/answer?question=tu connais le livre un bonheur insoutenable ?")
+    assert b'answer' in rv.data
+    data = json.loads(rv.get_data(as_text=True))
+    assert data['answer'] == {
+    'book': "Un bonheur insoutenable (titre original This Perfect Day) est un roman d'anticipation dystopique américain d'Ira Levin, publié en 1970.\n\n\n== Histoire ==\nL'action se situe dans l'avenir, après l'année 2000.",
+    'papy': "oui j'adore ce livre !"}
+
+def test_mocking_find_wiki(mocker):
+    mocker.patch('wikipedia.summary', return_value="OpenClassrooms")
+    expected = "OpenClassrooms"
+    actual = "OpenClassrooms"
+    assert expected == actual
+
+def test_mocking_find_adress(mocker):
+    mocker.patch('googlemaps.client.geocode', return_value="openclassrooms")
+    expected = "OpenClassrooms"
+    actual = "OpenClassrooms"
+    assert expected == actual

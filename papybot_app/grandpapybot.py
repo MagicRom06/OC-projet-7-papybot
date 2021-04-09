@@ -9,50 +9,25 @@ class GrandPapyBot:
     """
     Class used to manage interactions with papy.
     """
-
-    # load google map client
-    gmaps = googlemaps.Client(key=os.environ['GOOGLE_API_KEY'])
-
     @staticmethod
     def findAnswer(question):
         """
         method used for parsing question and returning answer
         """
         if question:
-            # deleting useless words that are in words_list.json
             user_message = GrandPapyBot.filter(question)
             if not user_message:
-                GrandPapyBot.notUnderstand()
+                return GrandPapyBot.notUnderstand()
             else:
-                # if the question concerns an adress:
-                # - display adresse
-                # - google map location
-                # - wiki information for the research
                 if "adresse" in user_message:
-                    place = ' '.join(user_message[
-                        (user_message.index("adresse"))
-                        + 1:len(user_message)])
-                    geocode_result = GrandPapyBot.gmaps.geocode(place)
-                    adress = geocode_result[0]['formatted_address']
-                    location = geocode_result[0]['geometry']['location']
-                    wiki = GrandPapyBot.getWiki(place)
-                    return GrandPapyBot.sayAdress(adress, location, wiki)
-                # if the question concerns a movie:
-                # - display wiki information regarding the movie
+                    place = GrandPapyBot.extract(user_message, "adresse")
+                    return GrandPapyBot.findAdress(place)
                 elif "film" in user_message:
-                    movie = ' '.join(
-                        user_message[(
-                            user_message.index("film")):len(user_message)])
-                    wiki = GrandPapyBot.getWiki(movie)
-                    return GrandPapyBot.findMovie(wiki)
-                # if the question concerns a book:
-                # - display wiki information regarding the book
+                    movie = GrandPapyBot.extract(user_message, "film")
+                    return GrandPapyBot.findMovie(movie)
                 elif "livre" in user_message:
-                    book = ' '.join(
-                        user_message[(
-                            user_message.index("livre")):len(user_message)])
-                    wiki = GrandPapyBot.getWiki(book)
-                    return GrandPapyBot.findBook(wiki)
+                    book = GrandPapyBot.extract(user_message, "livre")
+                    return GrandPapyBot.findBook(book)
                 elif "merci" in user_message:
                     return GrandPapyBot.sayThanks()
                 elif "salut" in user_message:
@@ -61,28 +36,42 @@ class GrandPapyBot:
                     return GrandPapyBot.notUnderstand()
 
     @staticmethod
-    def sayAdress(adress, location, wiki):
+    def extract(question, subject):
+        """
+        method used to extract key-words from question
+        """
+        return ' '.join(question[(question.index(subject)) + 1:len(question)])
+
+    @staticmethod
+    def findAdress(place):
         """
         answer for adress request
         """
+        gmaps = googlemaps.Client(key=os.environ['GOOGLE_API_KEY'])
+        geocode_result = gmaps.geocode(place)
+        adress = geocode_result[0]['formatted_address']
+        location = geocode_result[0]['geometry']['location']
+        wiki = GrandPapyBot.getWiki(place)
         return {"papy": "Bien sûr mon poussin ! La voici: {}."
                 .format(adress), "location": location, "wiki": wiki}
 
     @staticmethod
-    def findMovie(wiki):
+    def findMovie(movie):
         """
         answer for movie request
         """
+        wiki = GrandPapyBot.getWiki("film " + movie)
         if wiki == "Désolé je ne connais pas":
             return {"papy": wiki}
         else:
             return {"papy": "oui j'adore ce film !", "movie": wiki}
 
     @staticmethod
-    def findBook(wiki):
+    def findBook(book):
         """
         answer for book request
         """
+        wiki = GrandPapyBot.getWiki("livre " + book)
         if wiki == "Désolé je ne connais pas":
             return {"papy": wiki}
         else:

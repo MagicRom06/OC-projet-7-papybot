@@ -3,6 +3,10 @@ html, body {
 	margin: 0px;
 }
 
+.navbar-top {
+	background-color: #58A09B;
+}
+
 .fab{
 	font-size:30px;
 }

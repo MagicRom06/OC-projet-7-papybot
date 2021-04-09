@@ -16,6 +16,7 @@ googlemaps = "*"
 isort = "*"
 pep8 = "*"
 pycodestyle = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.8"
