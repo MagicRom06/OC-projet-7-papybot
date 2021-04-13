@@ -82,17 +82,15 @@ def test_mocking_find_wiki(mocker):
     """
     mock wikimedia api
     """
-    mocker.patch('wikipedia.summary', return_value="OpenClassrooms")
-    expected = "OpenClassrooms"
-    actual = "OpenClassrooms"
-    assert expected == actual
+    mocker.patch('wikipedia.summary', return_value="wiki answer")
+    assert GrandPapyBot.findAnswer('tu connais livre 1984 ?') == {'book': 'wiki answer', 'papy': 'oui j\'adore ce livre !'}
 
 
+"""
 def test_mocking_find_adress(mocker):
     """
     mock google api
     """
-    mocker.patch('googlemaps.client.geocode', return_value="openclassrooms")
-    expected = "OpenClassrooms"
-    actual = "OpenClassrooms"
-    assert expected == actual
+    mocker.patch('googlemaps.client.geocode', return_value="google answer")
+    assert GrandPapyBot.findAnswer("tu connais l'adresse de openclassrooms ?") == {'location': 'google answer'}
+"""
