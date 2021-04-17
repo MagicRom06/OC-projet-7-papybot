@@ -49,6 +49,7 @@ class GrandPapyBot:
         """
         gmaps = googlemaps.Client(key=os.environ['GOOGLE_API_KEY'])
         geocode_result = gmaps.geocode(place)
+        print(geocode_result)
         adress = geocode_result[0]['formatted_address']
         location = geocode_result[0]['geometry']['location']
         wiki = GrandPapyBot.getWiki(place)

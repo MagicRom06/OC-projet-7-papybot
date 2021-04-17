@@ -8,6 +8,7 @@ from wikipedia import summary
 
 from ..grandpapybot import GrandPapyBot
 from ..views import app
+from .googlemapmock import GoogleMapMock
 
 
 @pytest.fixture
@@ -86,11 +87,10 @@ def test_mocking_find_wiki(mocker):
     assert GrandPapyBot.findAnswer('tu connais livre 1984 ?') == {'book': 'wiki answer', 'papy': 'oui j\'adore ce livre !'}
 
 
-"""
 def test_mocking_find_adress(mocker):
     """
     mock google api
     """
-    mocker.patch('googlemaps.client.geocode', return_value="google answer")
-    assert GrandPapyBot.findAnswer("tu connais l'adresse de openclassrooms ?") == {'location': 'google answer'}
-"""
+    mock = mocker.patch('googlemaps.Client', return_value= GoogleMapMock())
+    mock = mocker.patch('wikipedia.summary', return_value="info wiki")
+    assert GrandPapyBot.findAnswer("tu connais l'adresse de openclassrooms ?") == {'papy': 'Bien sûr mon poussin ! La voici: adress.', 'wiki': 'info wiki', 'location': 'info location'}
