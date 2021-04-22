@@ -39,4 +39,4 @@ Voici quelques exemples de question à poser à PapyBot:
 - "Est-ce que tu connais le film la ligne rouge ? "
 - "Est-ce que tu connais le livre germinal ?"<br>
 
-ATTENTION: Pour que papybot comprenne la question, il faut s'assurer que les mots "adresse", "film" ou "livre" (selon la recherche) soientt devant le sujet recherché.
+ATTENTION: Pour que papybot comprenne la question, il faut s'assurer que les mots "adresse", "film" ou "livre" (selon la recherche) soient devant le sujet recherché.
