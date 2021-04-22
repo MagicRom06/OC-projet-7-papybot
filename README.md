@@ -1,10 +1,6 @@
 <<<<<<< HEAD
 # OC - Projet 7 - Créez GrandPy Bot, le papy-robot
 
-## Context
-=======
-# OC-p7-Créez GrandPy Bot, le papy-robot
-
 ## Contexte
 Ah, les grands-pères... Je ne sais pas vous, mais le mien connaissait quantité d'histoires. Il me suffisait de lui dire un mot pour le voir parti pendant des heures. "Tu veux l'adresse de la poste ? Ah oui, c'est bien. Mais je t'ai déjà raconté que j'ai aidé à la construire ? C'était en 1974 et..." 😴
 
