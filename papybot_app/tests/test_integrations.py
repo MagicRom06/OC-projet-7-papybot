@@ -1,10 +1,6 @@
 import json
-import os
 
-import flask
-import googlemaps
 import pytest
-from wikipedia import summary
 
 from ..grandpapybot import GrandPapyBot
 from ..views import app
@@ -56,18 +52,23 @@ def test_search_adress(client):
     assert rv.status_code == 200
     assert b'answer' in rv.data
     data = json.loads(rv.get_data(as_text=True))
-    assert data['answer'] ==
-    {"location":
-        {"lat": 48.8975156, "lng": 2.3833993},
-        "papy": """Bien sûr mon poussin ! La voici: 10 Quai
-        de la Charente, 75019 Paris, France.""",
-        "wiki": """OpenClassrooms est un site web de
-        formation en ligne qui propose à ses membres des
-        cours certifiants et des parcours débouchant sur des
-        métiers en croissance. Ses contenus sont réalisés en
-        interne, par des écoles, des universités, des
-        entreprises partenaires comme Microsoft ou IBM,
-        ou historiquement par des bénévoles."""}
+    assert data['answer'] == \
+        {
+            "location":
+                {
+                    "lat": 48.8975156, "lng": 2.3833993
+                },
+            "papy": ("Bien sûr mon poussin ! La voici: "
+                     "10 Quai de la Charente, 75019 Paris, France."),
+            "wiki": ("OpenClassrooms est un site web de formation en "
+                     "ligne qui propose à ses membres des cours certifiants "
+                     "et des parcours débouchant sur des métiers "
+                     "en croissance. "
+                     "Ses contenus sont réalisés en interne, par des écoles, "
+                     "des universités, des entreprises partenaires "
+                     "comme Microsoft ou IBM, ou historiquement"
+                     " par des bénévoles.")
+        }
 
 
 def test_search_movie(client):
@@ -78,13 +79,15 @@ def test_search_movie(client):
     assert rv.status_code == 200
     assert b'answer' in rv.data
     data = json.loads(rv.get_data(as_text=True))
-    assert data['answer'] ==
-    {'movie': """Monty Python : Sacré Graal !
-    (Monty Python and the Holy Grail) est un
-    film britannique sorti en 1975, écrit et
-    réalisé par Terry Gilliam et Terry Jones
-    de la troupe des Monty Python.""",
-     "papy": "oui j'adore ce film !"}
+    assert data['answer'] == \
+        {
+            'movie':
+                ("Monty Python : Sacré Graal ! (Monty Python and "
+                 "the Holy Grail) est un film britannique sorti en "
+                 "1975, écrit et réalisé par Terry Gilliam et "
+                 "Terry Jones de la troupe des Monty Python."),
+            "papy": "oui j'adore ce film !"
+        }
 
 
 def test_search_book(client):
@@ -95,14 +98,15 @@ def test_search_book(client):
         le livre un bonheur insoutenable ?""")
     assert b'answer' in rv.data
     data = json.loads(rv.get_data(as_text=True))
-    assert data['answer'] ==
-    {'book': """Un bonheur insoutenable
-    (titre original This Perfect Day) est un
-    roman d'anticipation dystopique américain
-    d'Ira Levin, publié en 1970.\n\n\n== Histoire
-    ==\nL'action se situe dans l'avenir,
-    après l'année 2000.""",
-     'papy': "oui j'adore ce livre !"}
+    assert data['answer'] == \
+        {
+            'book':
+                ("Un bonheur insoutenable (titre original "
+                 "This Perfect Day) est un roman d'anticipation "
+                 "dystopique américain d'Ira Levin, publié en "
+                 "1970.\n\n\n== Histoire ==\nL'action se situe dans "
+                 "l'avenir, après l'année 2000."),
+            'papy': "oui j'adore ce livre !"}
 
 
 def test_mocking_find_wiki(mocker):
@@ -110,17 +114,22 @@ def test_mocking_find_wiki(mocker):
     mock wikimedia api
     """
     mocker.patch('wikipedia.summary', return_value="wiki answer")
-    assert GrandPapyBot.findAnswer('tu connais livre 1984 ?') ==
-    {'book': 'wiki answer', 'papy': 'oui j\'adore ce livre !'}
+    assert GrandPapyBot.findAnswer('tu connais livre 1984 ?') == \
+        {
+            'book': 'wiki answer', 'papy':
+                'oui j\'adore ce livre !'
+        }
 
 
 def test_mocking_find_adress(mocker):
     """
     mock google api
     """
-    mock = mocker.patch('googlemaps.Client', return_value=GoogleMapMock())
-    mock = mocker.patch('wikipedia.summary', return_value="info wiki")
+    mocker.patch('googlemaps.Client', return_value=GoogleMapMock())
+    mocker.patch('wikipedia.summary', return_value="info wiki")
     assert GrandPapyBot.findAnswer("""tu connais l'adresse de
-        openclassrooms ?""") ==
-    {'papy': """Bien sûr mon poussin ! La voici: adress.""",
-     'wiki': 'info wiki', 'location': 'info location'}
+        openclassrooms ?""") == \
+        {
+            'papy': """Bien sûr mon poussin ! La voici: adress.""",
+            'wiki': 'info wiki', 'location': 'info location'
+        }

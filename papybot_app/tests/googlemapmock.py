@@ -1,6 +1,3 @@
-import googlemaps
-
-
 class GoogleMapMock:
 
     def geocode(self, place):

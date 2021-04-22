@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+<<<<<<< HEAD
 alembic = "==1.5.8"
 attrs = "==20.3.0"
 beautifulsoup4 = "==4.9.3"
@@ -43,6 +44,20 @@ Mako = "==1.1.4"
 MarkupSafe = "==1.1.1"
 SQLAlchemy = "==1.4.7"
 Werkzeug = "==1.0.1"
+=======
+flask = "*"
+psycopg2-binary = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+pytest = "*"
+wikipedia = "*"
+googlemaps = "*"
+isort = "*"
+pep8 = "*"
+pycodestyle = "*"
+pytest-mock = "*"
+gunicorn = "*"
+>>>>>>> f972aa57105eb1f350e42ee08fe1afe39e3fcd59
 
 [requires]
 python_version = "3.8"
