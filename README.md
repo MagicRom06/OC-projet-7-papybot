@@ -40,4 +40,3 @@ Voici quelques exemples de question à poser à PapyBot:
 - "Est-ce que tu connais le livre germinal ?"<br>
 
 ATTENTION: Pour que papybot comprenne la question, il faut s'assurer que les mots "adresse", "film" ou "livre" (selon la recherche) soient devant le sujet recherché.
->>>>>>> f972aa57105eb1f350e42ee08fe1afe39e3fcd59
